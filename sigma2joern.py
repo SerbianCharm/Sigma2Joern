@@ -20,12 +20,12 @@ def generate_scala(title, description, keywords, output_path):
 import io.shiftleft.codepropertygraph.cpgloading.CpgLoader
 
 @main def exec(cpgFile: String): Unit = {{
-  println(s"Lade CPG aus: $cpgFile ...")
+  println(s"Loading CPG from: $cpgFile ...")
   val cpg = CpgLoader.load(cpgFile)
   
   println("Sigma Rule Conversion: {title}")
-  println("Beschreibung: {description}")
-  println("Suche nach Systemaufrufen, die folgende Indikatoren auslösen könnten...")
+  println("Description: {description}")
+  println("Searching for system calls that might trigger the following indicators...")
   
   val indicators = Set(
     {', '.join([f'"{kw}"' for kw in keywords])}
@@ -46,12 +46,12 @@ import io.shiftleft.codepropertygraph.cpgloading.CpgLoader
     .l
 
   if (findings.isEmpty) {{
-    println("Keine Übereinstimmungen mit den Sigma-Indikatoren gefunden.")
+    println("No matches found for the Sigma indicators.")
   }} else {{
-    println(s"\\n${{findings.size}} kritische Systemaufrufe gefunden:\\n")
+    println(s"\\n${{findings.size}} critical system calls found:\\n")
     findings.foreach {{ case (filename, line, code) =>
       val lineStr = if (line == -1) "N/A" else line.toString
-      println(s"Datei: $filename | Zeile: $lineStr")
+      println(s"File: $filename | Line: $lineStr")
       println(s"Code:  $code")
       println("-" * 50)
     }}
@@ -60,24 +60,24 @@ import io.shiftleft.codepropertygraph.cpgloading.CpgLoader
 """
     with open(output_path, 'w') as f:
         f.write(scala_code)
-    print(f"[+] Joern-Skript erfolgreich erstellt: {output_path}")
+    print(f"[+] Joern script successfully created: {output_path}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Konvertiert einfache Sigma-Regeln in Joern .sc Skripte.")
-    parser.add_argument("sigma_file", help="Pfad zur Sigma YAML-Datei")
-    parser.add_argument("-o", "--output", help="Ausgabedatei (z.B. rule.sc)", default="sigma_rule.sc")
+    parser = argparse.ArgumentParser(description="Converts simple Sigma rules into Joern .sc scripts.")
+    parser.add_argument("sigma_file", help="Path to the Sigma YAML file")
+    parser.add_argument("-o", "--output", help="Output file (e.g., rule.sc)", default="sigma_rule.sc")
     
     args = parser.parse_args()
 
     if not os.path.exists(args.sigma_file):
-        print(f"[-] Fehler: Datei {args.sigma_file} nicht gefunden.")
+        print(f"[-] Error: File {args.sigma_file} not found.")
         sys.exit(1)
 
     try:
         with open(args.sigma_file, 'r') as f:
             rule = yaml.safe_load(f)
     except Exception as e:
-        print(f"[-] Fehler beim Parsen der YAML-Datei: {e}")
+        print(f"[-] Error parsing the YAML file: {e}")
         sys.exit(1)
 
     title = rule.get('title', 'Unknown Rule')
@@ -88,7 +88,7 @@ def main():
         extract_keywords(rule['detection'], keywords)
     
     if not keywords:
-        print("[-] Keine verwertbaren Indikatoren in der Sigma-Regel gefunden.")
+        print("[-] No usable indicators found in the Sigma rule.")
         sys.exit(1)
 
     generate_scala(title, description, keywords, args.output)
