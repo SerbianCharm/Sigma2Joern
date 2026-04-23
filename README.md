@@ -27,7 +27,7 @@ Convert an existing Sigma rule (.yml) into a Joern script (.sc):
 
 ### 2. Analyze Code in Joern
 
-First, create a Code Property Graph (CPG) from your source code and then apply a script (generated or from this repository):
+First, create a Code Property Graph (CPG) from your source code and then apply a script (generated or from this repository:
 
 ```bash
 # 1. Generate CPG (creates a cpg.bin file)
@@ -36,13 +36,13 @@ or
 joern-scan source_code.c
 
 # 2. Apply script to the graph
-joern --script detect_rule.sc --param cpgFile=cpg.bin
+joern --script joern_script.sc --param cpgFile=cpg.bin
 ```
 
 Alternatively, you can run scripts in the interactive Joern console using:
 
 ```bash
-cpg.runScript("script.sc")
+cpg.runScript("joern_script.sc")
 ```
 ## License
 
