@@ -1,0 +1,17 @@
+title: Test - Whoami Privilege Discovery
+id: a2480203-4194-4794-bd9b-5f6b31f26390
+status: test
+description: Test rule for sigma2joern (whoami /priv)
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\whoami.exe'
+        - OriginalFileName: 'whoami.exe'
+    selection_cli:
+        CommandLine|contains|windash: ' -priv'
+    condition: all of selection_*
+level: high

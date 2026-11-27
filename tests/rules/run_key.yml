@@ -1,0 +1,17 @@
+title: Test - Run Key Persistence Via Reg.exe
+id: 41cd53dd-9f7d-4a5c-a50c-3e5e49feaaac
+status: test
+description: Test rule for sigma2joern (reg add ...\CurrentVersion\Run)
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\reg.exe'
+        CommandLine|contains|all:
+            - ' add '
+            - '\Software\Microsoft\Windows\CurrentVersion\Run'
+    condition: selection
+level: medium
