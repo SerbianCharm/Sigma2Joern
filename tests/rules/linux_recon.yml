@@ -1,0 +1,17 @@
+title: Test - Linux Discovery Commands
+id: 6cf6f548-fb84-4250-98a2-2fadd6fe6f0a
+status: test
+description: Test rule for sigma2joern (id / uname)
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_id:
+        Image|endswith: '/id'
+    selection_uname:
+        Image|endswith: '/uname'
+        CommandLine|contains: ' -a'
+    condition: 1 of selection_*
+level: low

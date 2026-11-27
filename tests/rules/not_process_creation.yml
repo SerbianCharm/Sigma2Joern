@@ -1,0 +1,14 @@
+title: Test - Some Network Rule (must be ignored)
+id: 16322af6-3fb6-40e0-aeb2-13dbd3f11062
+status: test
+description: Test rule for sigma2joern - other log source
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        DestinationPort: 4444
+    condition: selection
+level: high

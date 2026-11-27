@@ -1,0 +1,14 @@
+title: Test - Download Piped To Shell
+id: 3e5d8401-5148-4d02-a8c6-7950557e65a8
+status: test
+description: Test rule for sigma2joern (curl ... | sh)
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection:
+        CommandLine|re: '(curl|wget)\s.*\|\s*(ba)?sh\b'
+    condition: selection
+level: medium

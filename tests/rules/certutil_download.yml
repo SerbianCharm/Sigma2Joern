@@ -1,0 +1,21 @@
+title: Test - Certutil Download
+id: bf16efe8-b00b-4169-b363-6f04f2448f04
+status: test
+description: Test rule for sigma2joern (certutil -urlcache ... http)
+author: sigma2joern tests
+date: 2026-11-27
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\certutil.exe'
+        - OriginalFileName: 'CertUtil.exe'
+    selection_flags:
+        CommandLine|contains|windash:
+            - '-urlcache '
+            - '-verifyctl '
+    selection_http:
+        CommandLine|contains: 'http'
+    condition: all of selection_*
+level: medium
